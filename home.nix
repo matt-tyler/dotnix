@@ -13,6 +13,8 @@
 
   programs.home-manager.enable = true;
 
+  programs.tmux.enable = true;
+
   programs.zsh = {
     enable = true;
     oh-my-zsh = {
