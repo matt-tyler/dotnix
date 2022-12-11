@@ -24,11 +24,12 @@
             home-manager.darwinModules.home-manager
             {
                 services.nix-daemon.enable = true;
-                programs.zsh.enable = true;
 
                 home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
+                    programs.zsh.enable = true;
+
                     users."matt.tyler" = import ./home.nix;
                 };
             }
