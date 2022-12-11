@@ -20,11 +20,12 @@
     darwinConfigurations."MacBook-Pro" = darwin.lib.darwinSystem {
     # you can have multiple darwinConfigurations per flake, one per hostname
         system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
-        programs.zsh.enable = true;
         modules = [
             home-manager.darwinModules.home-manager
             {
                 services.nix-daemon.enable = true;
+                programs.zsh.enable = true;
+
                 home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
