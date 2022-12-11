@@ -16,7 +16,19 @@
 
   programs.home-manager.enable = true;
 
-  programs.tmux.enable = true;
+  programs.tmux = {
+    enable = true;
+  };
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      shell = {
+        program = "zsh";
+        args = [ "-l" "-c" "tmux" "new-session" "-A" "-s" "main" ];
+      };
+    };
+  };
 
   programs.zsh = {
     enable = true;
