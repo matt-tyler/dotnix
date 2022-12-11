@@ -15,7 +15,7 @@
   };
   
   # add the inputs declared above to the argument attribute set
-  outputs = { darwin, home-manager, ... }: {
+  outputs = { darwin, home-manager, nixpkgs, ... }: {
 
     darwinConfigurations."MacBook-Pro" = darwin.lib.darwinSystem {
     # you can have multiple darwinConfigurations per flake, one per hostname
@@ -23,6 +23,8 @@
         modules = [
             home-manager.darwinModules.home-manager
             {
+                services.nix-daemon.enable = true;
+                services.nix-daemon.package = nixpkgs.nixFlakes;
                 home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
