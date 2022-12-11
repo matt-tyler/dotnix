@@ -15,7 +15,7 @@
   };
   
   # add the inputs declared above to the argument attribute set
-  outputs = { darwin, home-manager, pkgs, nixpkgs, ... }: {
+  outputs = { darwin, home-manager, ... }: {
 
     darwinConfigurations."MacBook-Pro" = darwin.lib.darwinSystem {
     # you can have multiple darwinConfigurations per flake, one per hostname
