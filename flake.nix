@@ -17,7 +17,7 @@
   # add the inputs declared above to the argument attribute set
   outputs = { darwin, home-manager, nixpkgs, ... }: {
 
-    darwinConfigurations."MacBook-Pro" = darwin.lib.darwinSystem {
+    darwinConfigurations."m1" = darwin.lib.darwinSystem {
     # you can have multiple darwinConfigurations per flake, one per hostname
         system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
         modules = [
@@ -25,6 +25,7 @@
             {
                 services.nix-daemon.enable = true;
                 programs.zsh.enable = true;
+                security.pam.enableSudoTouchIdAuth = true;
 
                 home-manager = {
                     useGlobalPkgs = true;
