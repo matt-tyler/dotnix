@@ -70,6 +70,7 @@
     YouCompleteMe
     gundo-vim
     tagbar
+    vim-polyglot
   ];
 
   programs.neovim.coc.enable = true;
