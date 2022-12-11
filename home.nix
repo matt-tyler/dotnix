@@ -1,5 +1,8 @@
 { pkgs, ... }:
 {
+  services.nix-daemon.enable = true;
+  services.nix-daemon.package = pkgs.nixFlakes;
+
   home.stateVersion = "22.05";
   home.packages = with pkgs; [
     tmux

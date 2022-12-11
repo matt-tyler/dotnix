@@ -23,8 +23,6 @@
         modules = [
             home-manager.darwinModules.home-manager
             {
-                services.nix-daemon.enable = true;
-                services.nix-daemon.package = pkgs.nixFlakes;
                 home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
