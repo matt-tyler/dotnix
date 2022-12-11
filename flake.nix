@@ -24,7 +24,6 @@
             home-manager.darwinModules.home-manager
             {
                 services.nix-daemon.enable = true;
-                services.nix-daemon.package = nixpkgs;
                 home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
