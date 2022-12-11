@@ -11,6 +11,8 @@
     gh
   ];
 
+  programs.home-manager.enable = true;
+
   programs.zsh = {
     enable = true;
     oh-my-zsh = {
