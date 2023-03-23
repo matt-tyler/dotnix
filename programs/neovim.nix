@@ -4,7 +4,6 @@
   plugins = with pkgs.vimPlugins; [
     plenary-nvim
     telescope-fzf-native-nvim
-    nvim-treesitter
     nvim-web-devicons
     vim-tmux-navigator
     luasnip
@@ -14,8 +13,14 @@
     cmp-buffer
     cmp-path
     cmp-cmdline
-    mason-lsp-nvim
+    trouble-nvim
+    mason-lspconfig-nvim
     null-ls-nvim
+    {
+      plugin = nvim-treesitter.withAllGrammars;
+      type = "lua";
+      config = builtins.readFile ./nvim/treesitter.lua;
+    }
     {
       plugin = mason-nvim;
       type = "lua";

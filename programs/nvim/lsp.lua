@@ -15,3 +15,14 @@ lspconfig.gopls.setup {
       },
     },
   }
+
+require'lspconfig'.tsserver.setup{}
+
+
+vim.filetype.add({
+  extension = {
+    astro = "astro"
+  }
+})
+
+require'lspconfig'.astro.setup{}
