@@ -14,6 +14,13 @@
     cmp-buffer
     cmp-path
     cmp-cmdline
+    mason-lsp-nvim
+    null-ls-nvim
+    {
+      plugin = mason-nvim;
+      type = "lua";
+      config = builtins.readFile ./nvim/mason.lua;
+    }
     {
       plugin = trouble-nvim;
       type = "lua";

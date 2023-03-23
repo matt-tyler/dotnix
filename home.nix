@@ -17,9 +17,6 @@
     fd
     jq
     nerdfonts
-
-    # language servers
-    gopls
   ];
 
   home.sessionVariables = {
