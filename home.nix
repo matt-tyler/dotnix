@@ -19,6 +19,7 @@
     nerdfonts
     rustc
     cargo
+    direnv
   ];
 
   home.sessionVariables = {
