@@ -17,6 +17,8 @@
     fd
     jq
     nerdfonts
+    rustc
+    cargo
   ];
 
   home.sessionVariables = {

@@ -29,7 +29,7 @@
                 security.pam.enableSudoTouchIdAuth = true;
                 users.users = {
                   "matt.tyler" = {
-                    name = "Matt Tyler";
+                    name = "matt.tyler";
                     home = "/Users/matt.tyler";
                   };
                 };

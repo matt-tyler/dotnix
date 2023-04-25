@@ -4,7 +4,7 @@
   plugins = with pkgs.vimPlugins; [
     plenary-nvim
     telescope-fzf-native-nvim
-    nvim-web-devicons
+   
     vim-tmux-navigator
     luasnip
     cmp_luasnip
@@ -16,6 +16,11 @@
     trouble-nvim
     mason-lspconfig-nvim
     null-ls-nvim
+    {
+      plugin = nvim-web-devicons;
+      type = "lua";
+      config = builtins.readFile ./nvim/web-devicons.lua;
+    }
     {
       plugin = nvim-treesitter.withAllGrammars;
       type = "lua";
