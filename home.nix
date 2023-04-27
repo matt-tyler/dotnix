@@ -8,8 +8,10 @@
     zsh
     git
     gh
+    gnugrep
     flyctl
     kubectl
+    azure-cli
     awscli2
     google-cloud-sdk
     terraform
@@ -25,8 +27,6 @@
   };
 
   programs.home-manager.enable = true;
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
 
   programs.direnv = {
     enable = true;
