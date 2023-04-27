@@ -17,8 +17,6 @@
     fd
     jq
     nerdfonts
-    rustc
-    cargo
     direnv
   ];
 
@@ -27,6 +25,13 @@
   };
 
   programs.home-manager.enable = true;
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   programs.tmux = import ./programs/tmux.nix {
     inherit pkgs;
