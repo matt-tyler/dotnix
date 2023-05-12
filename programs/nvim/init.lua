@@ -6,6 +6,8 @@ vim.opt.foldlevel = 99
 vim.opt.colorcolumn = "80,120"
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.showcmd = true
-vim.opt.tabstop = 4
 
 vim.cmd [[autocmd FileType markdown set tw=80 wrap]]
+
+
+vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})

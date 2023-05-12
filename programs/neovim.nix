@@ -5,6 +5,7 @@
     plenary-nvim
     telescope-fzf-native-nvim
    
+    comment-nvim
     vim-tmux-navigator
     luasnip
     cmp_luasnip
@@ -91,6 +92,17 @@
       type = "lua";
       config = builtins.readFile ./nvim/cmp.lua;
     }
+    neodev-nvim
+    nvim-dap-go
+    nvim-dap-ui
+    nvim-dap-virtual-text
+    telescope-dap-nvim
+    {
+      plugin = nvim-dap;
+      type = "lua";
+      config = builtins.readFile ./nvim/dap.lua;
+    }
+    git-worktree-nvim
   ];
 
   extraLuaConfig = builtins.readFile ./nvim/init.lua;

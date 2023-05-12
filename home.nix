@@ -13,13 +13,26 @@
     kubectl
     azure-cli
     awscli2
-    google-cloud-sdk
+    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     terraform
     ripgrep
     fd
     jq
+    yq-go
     nerdfonts
     direnv
+    colima
+    docker
+    docker-compose
+    yubikey-manager
+
+    # go
+    go
+    delve
+    gopls
+
+    # Required for mason lsp
+    nodejs_20
   ];
 
   home.sessionVariables = {
