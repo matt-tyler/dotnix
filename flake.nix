@@ -18,55 +18,19 @@
   outputs = { darwin, home-manager, nixpkgs, ... }: {
 
     darwinConfigurations."mini" = darwin.lib.darwinSystem {
-    # you can have multiple darwinConfigurations per flake, one per hostname
-        system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
-
+        system = "aarch64-darwin";
         modules = [
             home-manager.darwinModules.home-manager
-            {
-                services.nix-daemon.enable = true;
-                programs.zsh.enable = true;
-                security.pam.enableSudoTouchIdAuth = true;
-                users.users = {
-                  "matt.tyler" = {
-                    name = "matt.tyler";
-                    home = "/Users/matt.tyler";
-                  };
-                };
-                home-manager = {
-                    useGlobalPkgs = true;
-                    useUserPackages = true;
-
-                    users."matt.tyler" = import ./hosts/mini/home.nix;
-                };
-            }
-        ]; # will be important later
+	    ./hosts/mini/config.nix
+        ]; 
     };
 
     darwinConfigurations."AU-L-0300" = darwin.lib.darwinSystem {
-    # you can have multiple darwinConfigurations per flake, one per hostname
-        system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
-
+        system = "aarch64-darwin";
         modules = [
             home-manager.darwinModules.home-manager
-            {
-                services.nix-daemon.enable = true;
-                programs.zsh.enable = true;
-                security.pam.enableSudoTouchIdAuth = true;
-                users.users = {
-                  "matthewtyler" = {
-                    name = "matthewtyler";
-                    home = "/Users/matthewtyler";
-                  };
-                };
-                home-manager = {
-                    useGlobalPkgs = true;
-                    useUserPackages = true;
-
-                    users."matthewtyler" = import ./home.nix;
-                };
-            }
-        ]; # will be important later
+            ./hosts/AU-L-0300/config.nix
+        ];
     };
 
   };
