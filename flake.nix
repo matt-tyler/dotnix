@@ -17,6 +17,32 @@
   # add the inputs declared above to the argument attribute set
   outputs = { darwin, home-manager, nixpkgs, ... }: {
 
+    darwinConfigurations."mini" = darwin.lib.darwinSystem {
+    # you can have multiple darwinConfigurations per flake, one per hostname
+        system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
+
+        modules = [
+            home-manager.darwinModules.home-manager
+            {
+                services.nix-daemon.enable = true;
+                programs.zsh.enable = true;
+                security.pam.enableSudoTouchIdAuth = true;
+                users.users = {
+                  "matt.tyler" = {
+                    name = "matt.tyler";
+                    home = "/Users/matt.tyler";
+                  };
+                };
+                home-manager = {
+                    useGlobalPkgs = true;
+                    useUserPackages = true;
+
+                    users."matt.tyler" = import ./hosts/mini/home.nix;
+                };
+            }
+        ]; # will be important later
+    };
+
     darwinConfigurations."AU-L-0300" = darwin.lib.darwinSystem {
     # you can have multiple darwinConfigurations per flake, one per hostname
         system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
@@ -42,5 +68,6 @@
             }
         ]; # will be important later
     };
+
   };
 }

@@ -2,7 +2,7 @@
 {
     enable = true;
     userName = "Matt Tyler";
-    userEmail = "matt.tyler@familyzone.com";
+    userEmail = "me@matthewtyler.io"
     extraConfig = {
       credentials.helper = "osxkeychain";
       core = {
