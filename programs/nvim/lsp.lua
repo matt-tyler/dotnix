@@ -1,6 +1,7 @@
 
 local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
+local null_ls = require('null-ls')
 
 require('Comment').setup {}
 
@@ -52,6 +53,20 @@ lspconfig.golangci_lint_ls.setup {
     },
   },
 }
+
+lspconfig.pyright.setup {
+  capabilities = capabilites,
+  on_attach = on_attach
+}
+
+null_ls.setup {
+  sources = {
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.isort,
+    null_ls.builtins.diagnostics.flake8
+  }
+}
+
 
 require'lspconfig'.tsserver.setup{}
 

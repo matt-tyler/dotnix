@@ -33,6 +33,15 @@
 
     # Required for mason lsp
     nodejs_20
+
+    (python311.withPackages (p: with p; [
+        black
+	isort
+	flake8
+	pip
+	poetry-core
+    ]))
+
   ];
 
   home.sessionVariables = {

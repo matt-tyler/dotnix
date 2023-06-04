@@ -103,6 +103,11 @@
       config = builtins.readFile ./nvim/dap.lua;
     }
     git-worktree-nvim
+    {
+	plugin = gitsigns-nvim;
+	type = "lua";
+	config = builtins.readFile ./nvim/git.lua;
+    }
   ];
 
   extraLuaConfig = builtins.readFile ./nvim/init.lua;

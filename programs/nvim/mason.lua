@@ -14,5 +14,7 @@ require("mason-lspconfig").setup {
         "terraformls",
         "yamlls",
         "jsonls",
+
+	"pyright",
     },
 }
