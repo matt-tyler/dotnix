@@ -13,7 +13,11 @@
     kubectl
     azure-cli
     awscli2
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+    jdk
+    (google-cloud-sdk.withExtraComponents [
+      google-cloud-sdk.components.gke-gcloud-auth-plugin 
+      google-cloud-sdk.components.pubsub-emulator
+    ])
     terraform
     ripgrep
     fd
@@ -35,13 +39,14 @@
     nodejs_20
 
     (python311.withPackages (p: with p; [
-        black
-	isort
-	flake8
-	pip
-	poetry-core
+      black
+	    isort
+	    flake8
+	    pip
+	    poetry-core
     ]))
 
+    wireguard-tools
   ];
 
   home.sessionVariables = {

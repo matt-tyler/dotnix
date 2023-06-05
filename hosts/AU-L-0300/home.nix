@@ -5,7 +5,7 @@
     git = {
       enable = true;
       userName = "Matt Tyler";
-      userEmail = "matt.tyler@familyzone.com"
+      userEmail = "matt.tyler@familyzone.com";
       extraConfig = {
         credentials.helper = "osxkeychain";
         core = {
