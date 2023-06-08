@@ -14,3 +14,5 @@ vim.cmd [[autocmd FileType markdown set tw=80 wrap]]
 
 
 vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
+
+require('guess-indent').setup {}

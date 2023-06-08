@@ -47,6 +47,7 @@
     ]))
 
     wireguard-tools
+    wireguard-go
   ];
 
   home.sessionVariables = {

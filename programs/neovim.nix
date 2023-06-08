@@ -1,4 +1,16 @@
 { pkgs }:
+let
+  guess-ident = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "vim-guessident";
+    src = pkgs.fetchFromGitHub {
+      owner = "NMAC427";
+      repo = "guess-indent.nvim";
+      rev = "b8ae749fce17aa4c267eec80a6984130b94f80b2";
+      sha256 = "sha256-fqQfyUaQBcVZ7bcFeWbLyse9spw97Dqt/B4JGPnaYcQ=";
+      #hash = "sha256-bL33/S+caNmEYGcMLNCanFZyEYUOUmSsedCVBn4tV3g=";
+    };
+  };
+in
 {
   enable = true;
   plugins = with pkgs.vimPlugins; [
@@ -16,6 +28,7 @@
     cmp-cmdline
     trouble-nvim
     mason-lspconfig-nvim
+    guess-ident
     null-ls-nvim
     {
       plugin = nvim-web-devicons;
