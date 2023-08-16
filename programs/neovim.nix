@@ -117,10 +117,12 @@ in
     }
     git-worktree-nvim
     {
-	plugin = gitsigns-nvim;
-	type = "lua";
-	config = builtins.readFile ./nvim/git.lua;
+	    plugin = gitsigns-nvim;
+	    type = "lua";
+	    config = builtins.readFile ./nvim/git.lua;
     }
+    rust-tools-nvim
+    # copilot-lua
   ];
 
   extraLuaConfig = builtins.readFile ./nvim/init.lua;

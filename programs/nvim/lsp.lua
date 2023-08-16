@@ -7,7 +7,19 @@ require('Comment').setup {}
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local on_attach = function()
+local call_all = function(...)
+  print("call all called")
+  local args = {...}
+  return function(client, bufnr)
+    print("call all called from on_attach")
+    for i, fn in ipairs(args) do
+       fn(client, bufnr)
+    end
+  end 
+end
+
+local common_on_attach = function(client, bufnr)
+  print("common_on_attach called")
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
   vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { buffer = 0 })
   vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { buffer = 0 })
@@ -25,6 +37,23 @@ local on_attach = function()
   vim.keymap.set("n", "<leader>dl", "<cmd>Telescope diagnostics<CR>", { buffer = 0})
 
   vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { buffer = 0 })
+
+  -- common debugging keys
+  vim.keymap.set("n", "<F5>", ":lua require'dap'.continue()<CR>", { buffer = 0})
+  vim.keymap.set("n", "<F8>", ":lua require'dap'.step_over()<CR>", { buffer = 0 })
+  vim.keymap.set("n", "<F9>", ":lua require'dap'.step_into()<CR>", { buffer = 0 })
+  vim.keymap.set("n", "<F10>", ":lua require'dap'.step_out()<CR>", { buffer = 0})
+  vim.keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", { buffer = 0 })
+  vim.keymap.set("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", { buffer = 0})
+  vim.keymap.set("n", "<leader>lp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", { buffer = 0})
+  vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", { buffer = 0 })
+end
+
+local go_attach = function() 
+  call_all(common_on_attach)
+
+  -- debug go tests
+  vim.keymap.set("n", "<leader>dt", ":lua require'dap-go'.debug_test()<CR>")
 end
 
 lspconfig.gopls.setup {
@@ -41,12 +70,12 @@ lspconfig.gopls.setup {
     },
   },
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = go_attach,
 }
 
 lspconfig.golangci_lint_ls.setup {
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = go_attach,
   settings = {
     gopls = {
       gofumpt = true,
@@ -67,7 +96,6 @@ null_ls.setup {
   }
 }
 
-
 require'lspconfig'.tsserver.setup{}
 
 
@@ -78,3 +106,42 @@ vim.filetype.add({
 })
 
 require'lspconfig'.astro.setup{}
+
+local rt = require("rust-tools")
+
+local mason_registry = require('mason-registry')
+local codelldb = mason_registry.get_package("codelldb")
+codelldb:get_install_path()
+
+-- local extension_path = os.getenv("HOME") .. "/.vscode/extensions/vadimcn.vscode-lldb-1.9.1"
+-- local codelldb_path = extension_path .. "/adapter/codelldb"
+-- local liblldb_path = extension_path .. "/lldb/lib/liblldb.so"
+
+local extension_path = codelldb:get_install_path() .. "/extension/"
+local codelldb_path = extension_path .. "adapter/codelldb"
+local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+
+local rt_attach = function(client, bufnr)
+  print("rust attached called")
+  vim.keymap.set("n", "<leader>h", rt.hover_actions.hover_actions, { buffer = 0 })
+  vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = 0 })
+end
+
+rt.setup({
+  tools = {
+    inlay_hints = {
+      auto = true,
+      only_current_line = true,
+      show_parameter_hints = true
+    },
+  },
+  server = {
+    on_attach = call_all(common_on_attach, rt_attach)
+  },
+  dap = {
+    adapter = require("rust-tools.dap").get_codelldb_adapter(
+      codelldb_path,
+      liblldb_path
+    ),
+  },
+});

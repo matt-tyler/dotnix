@@ -15,6 +15,10 @@ require("mason-lspconfig").setup {
         "yamlls",
         "jsonls",
 
-	"pyright",
+        "pyright",
+
+        "rust_analyzer",
+
+	    "elixirls",
     },
 }

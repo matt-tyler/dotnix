@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  home.stateVersion = "22.05";
+  home.stateVersion = "23.05";
   home.packages = with pkgs; [
     tmux
     alacritty
@@ -15,8 +15,8 @@
     awscli2
     jdk
     (google-cloud-sdk.withExtraComponents [
-      google-cloud-sdk.components.gke-gcloud-auth-plugin 
-      google-cloud-sdk.components.pubsub-emulator
+      #google-cloud-sdk.components.gke-gcloud-auth-plugin 
+      #google-cloud-sdk.components.pubsub-emulator
     ])
     terraform
     ripgrep
@@ -34,20 +34,23 @@
     go
     delve
     gopls
+    golangci-lint
 
     # Required for mason lsp
     nodejs_20
 
     (python311.withPackages (p: with p; [
       black
-	    isort
-	    flake8
-	    pip
-	    poetry-core
+      isort
+      flake8
+      pip
+      poetry-core
     ]))
 
-    wireguard-tools
     wireguard-go
+
+    # rust debugging
+    vscode-extensions.vadimcn.vscode-lldb
   ];
 
   home.sessionVariables = {
