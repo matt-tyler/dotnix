@@ -16,6 +16,16 @@ local call_all = function(...)
   end 
 end
 
+vim.keymap.set('n', '<leader>f', '<cmd>Telescope find_files<CR>')
+vim.keymap.set('n', '<leader>g', '<cmd>Telescope git_status<CR>')
+vim.keymap.set('n', '<leader>G', '<cmd>Telescope git_commits<CR>')
+vim.keymap.set('n', '<leader>q', '<cmd>Telescope quickfix<CR>')
+vim.keymap.set('n', '<leader>?', '<cmd>Telescope live_grep<CR>')
+vim.keymap.set('n', '<leader>!', '<cmd>Telescope commands<CR>')
+vim.keymap.set('n', '<leader>/', '<cmd>Telescope current_buffer_fuzzy_find<CR>')
+vim.keymap.set('n', '<leader><leader>', '<cmd>Telescope buffers<CR>')
+vim.keymap.set('n', '<leader>w', '<cmd>Telescope treesitter<CR>')
+
 local common_on_attach = function(client, bufnr)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
   vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { buffer = 0 })
