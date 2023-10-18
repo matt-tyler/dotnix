@@ -1,5 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
+
+
   home.stateVersion = "23.05";
   home.packages = with pkgs; [
     tmux
@@ -15,7 +17,7 @@
     awscli2
     jdk
     (google-cloud-sdk.withExtraComponents [
-      #google-cloud-sdk.components.gke-gcloud-auth-plugin 
+      google-cloud-sdk.components.gke-gcloud-auth-plugin 
       #google-cloud-sdk.components.pubsub-emulator
     ])
     terraform
@@ -50,7 +52,7 @@
     wireguard-go
 
     # rust debugging
-    vscode-extensions.vadimcn.vscode-lldb
+    # vscode-extensions.vadimcn.vscode-lldb
   ];
 
   home.sessionVariables = {

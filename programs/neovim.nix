@@ -1,6 +1,6 @@
 { pkgs }:
 let
-  guess-ident = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  guess-ident = pkgs.vimUtils.buildVimPlugin {
     name = "vim-guessident";
     src = pkgs.fetchFromGitHub {
       owner = "NMAC427";
@@ -8,6 +8,16 @@ let
       rev = "b8ae749fce17aa4c267eec80a6984130b94f80b2";
       sha256 = "sha256-fqQfyUaQBcVZ7bcFeWbLyse9spw97Dqt/B4JGPnaYcQ=";
       #hash = "sha256-bL33/S+caNmEYGcMLNCanFZyEYUOUmSsedCVBn4tV3g=";
+    };
+  };
+
+  my-elixir-tools = pkgs.vimUtils.buildVimPlugin {
+    name = "elixir-tools-nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "elixir-tools";
+      repo = "elixir-tools.nvim";
+      rev = "4b3c1c23a83361559676981575083436cf9b7245";
+      sha256 = "sha256-WdtUVNFX6aE44ADUPSs7LMPgmAAM5ERNyBQyOXLNVwk=";
     };
   };
 in
@@ -122,7 +132,11 @@ in
 	    config = builtins.readFile ./nvim/git.lua;
     }
     rust-tools-nvim
-    # copilot-lua
+    my-elixir-tools
+
+    lspkind-nvim
+    copilot-lua
+    copilot-cmp
   ];
 
   extraLuaConfig = builtins.readFile ./nvim/init.lua;

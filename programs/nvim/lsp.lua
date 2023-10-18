@@ -145,3 +145,26 @@ rt.setup({
     ),
   },
 });
+
+require("elixir").setup({
+  nextls = {
+    enable = false,
+    on_attach = call_all(common_on_attach),
+    capabilities = capabilities,
+  },
+  elixirls = {
+    enable = true,
+    tag = "v0.15.1",
+    on_attach=call_all(common_on_attach),
+    capabilites = capabilities,
+  }
+})
+
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enabled = false },
+})
+
+require("copilot_cmp").setup({
+
+})

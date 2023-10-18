@@ -3,7 +3,7 @@
 
   inputs = {
     # Package sets
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-22.11-darwin";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
     nixpkgs-unstable.url = github:NixOS/nixpkgs/nixpkgs-unstable;
 
     # Environment/system management
@@ -15,13 +15,17 @@
   };
   
   # add the inputs declared above to the argument attribute set
-  outputs = { darwin, home-manager, nixpkgs, ... }: {
-
+  outputs = { darwin, home-manager, nixpkgs, ... }: let
+    allowUnfree = {
+      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "terraform" ];
+    };
+  in {
     darwinConfigurations."mini" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
             home-manager.darwinModules.home-manager
-	    ./hosts/mini/config.nix
+	          ./hosts/mini/config.nix
+            allowUnfree
         ]; 
     };
 
@@ -30,6 +34,7 @@
         modules = [
             home-manager.darwinModules.home-manager
             ./hosts/AU-L-0300/config.nix
+            allowUnfree
         ];
     };
 
