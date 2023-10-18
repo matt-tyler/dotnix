@@ -8,10 +8,8 @@ require('Comment').setup {}
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local call_all = function(...)
-  print("call all called")
   local args = {...}
   return function(client, bufnr)
-    print("call all called from on_attach")
     for i, fn in ipairs(args) do
        fn(client, bufnr)
     end
@@ -19,7 +17,6 @@ local call_all = function(...)
 end
 
 local common_on_attach = function(client, bufnr)
-  print("common_on_attach called")
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
   vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { buffer = 0 })
   vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { buffer = 0 })
@@ -122,7 +119,6 @@ local codelldb_path = extension_path .. "adapter/codelldb"
 local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
 local rt_attach = function(client, bufnr)
-  print("rust attached called")
   vim.keymap.set("n", "<leader>h", rt.hover_actions.hover_actions, { buffer = 0 })
   vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = 0 })
 end
