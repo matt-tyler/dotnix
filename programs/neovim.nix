@@ -20,6 +20,16 @@ let
       sha256 = "sha256-WdtUVNFX6aE44ADUPSs7LMPgmAAM5ERNyBQyOXLNVwk=";
     };
   };
+
+  elixir-extras = pkgs.vimUtils.buildVimPlugin {
+    name = "elixir-extras.nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "emmanueltouzery";
+      repo = "elixir-extras.nvim";
+      rev = "dae2f715d03166bc4c3de26904feca80d366b077";
+      sha256 = "sha256-unW3HKHemBR81D13MwZWfgwwBH5P4S0igSeRNzYg2yA=";
+    };
+  };
 in
 {
   enable = true;
@@ -59,11 +69,6 @@ in
       plugin = trouble-nvim;
       type = "lua";
       config = builtins.readFile ./nvim/trouble.lua;
-    }
-    {
-      plugin = lightspeed-nvim;
-      type = "lua";
-      config = builtins.readFile ./nvim/lightspeed.lua;
     }
     {
       plugin = project-nvim;
@@ -133,6 +138,7 @@ in
     }
     rust-tools-nvim
     my-elixir-tools
+    elixir-extras
 
     lspkind-nvim
     copilot-lua

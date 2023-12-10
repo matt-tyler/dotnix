@@ -1,7 +1,5 @@
 { pkgs, lib, ... }:
 {
-
-
   home.stateVersion = "23.05";
   home.packages = with pkgs; [
     tmux
@@ -84,5 +82,21 @@
 
   programs.neovim = import ../programs/neovim.nix {
     inherit pkgs;
+  };
+
+  programs.starship = {
+    enable = true;
+
+    settings = {
+      aws = {
+        disabled = true;
+      };
+      battery = {
+        disabled = true;
+      };
+      gcloud = {
+        disabled = true;
+      };
+    };
   };
 }

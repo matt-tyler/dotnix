@@ -152,6 +152,10 @@ rt.setup({
   },
 });
 
+local elixir_attach = function(client, bufnr)
+  vim.keymap.set('n', '<leader>i', ":lua require'elixir-extras'.elixir_view_docs({})<CR>", { buffer = 0 })
+end
+
 require("elixir").setup({
   nextls = {
     enable = false,
@@ -161,7 +165,7 @@ require("elixir").setup({
   elixirls = {
     enable = true,
     tag = "v0.15.1",
-    on_attach=call_all(common_on_attach),
+    on_attach=call_all(common_on_attach, elixir_attach),
     capabilites = capabilities,
   }
 })
