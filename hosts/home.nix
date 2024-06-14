@@ -30,7 +30,6 @@ let
   };
 in
 {
-
   imports = [ ./packages.nix ];
 
   home.stateVersion = "23.11";
