@@ -30,66 +30,10 @@ let
   };
 in
 {
+
+  imports = [ ./packages.nix ];
+
   home.stateVersion = "23.11";
-  home.packages = with pkgs; [
-    tmux
-    alacritty
-    oh-my-zsh
-    zsh
-    git
-    gh
-    gnugrep
-    flyctl
-    kubectl
-    azure-cli
-    awscli2
-    jdk
-    (google-cloud-sdk.withExtraComponents [
-      google-cloud-sdk.components.gke-gcloud-auth-plugin 
-      #google-cloud-sdk.components.pubsub-emulator
-    ])
-    terraform
-    ripgrep
-    fd
-    jq
-    yq-go
-    nerdfonts
-    direnv
-    colima
-    docker
-    docker-compose
-    yubikey-manager
-
-    # go
-    go_1_22
-
-    delve
-
-    gopls
-    golangci-lint
-
-    # Required for mason lsp
-    nodejs_20
-
-    (python311.withPackages (p: with p; [
-      black
-      isort
-      flake8
-      pip
-      poetry-core
-    ]))
-
-    wireguard-go
-
-    rustc
-    cargo
-
-    tailwindcss
-
-    # rust debugging
-    # vscode-extensions.vadimcn.vscode-lldb
-  ] ++ [
-  ];
 
   home.sessionVariables = {
     EDITOR = "neovim";
@@ -113,10 +57,6 @@ in
   programs.zsh = import ../programs/zsh.nix {
     inherit pkgs;
   };
-
-  # programs.git = import ./programs/git.nix {
-  #   inherit pkgs;
-  # };
 
   programs.neovim = import ../programs/neovim.nix {
     inherit pkgs;
