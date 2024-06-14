@@ -6,6 +6,8 @@
 
   plugins = with pkgs.tmuxPlugins; [
     # vim-tmux-navigator
+    resurrect
+    continuum
   ];
 
   extraConfig = builtins.readFile ./tmux/tmux.conf;

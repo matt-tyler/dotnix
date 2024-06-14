@@ -16,6 +16,26 @@ local call_all = function(...)
   end 
 end
 
+
+local custom_format = function()
+    if vim.bo.filetype == "templ" then
+        local bufnr = vim.api.nvim_get_current_buf()
+        local filename = vim.api.nvim_buf_get_name(bufnr)
+        local cmd = "templ fmt " .. vim.fn.shellescape(filename)
+
+        vim.fn.jobstart(cmd, {
+            on_exit = function()
+                -- Reload the buffer only if it's still the current buffer
+                if vim.api.nvim_get_current_buf() == bufnr then
+                    vim.cmd('e!')
+                end
+            end,
+        })
+    else
+        vim.lsp.buf.format()
+    end
+end
+
 vim.keymap.set('n', '<leader>f', '<cmd>Telescope find_files<CR>')
 vim.keymap.set('n', '<leader>g', '<cmd>Telescope git_status<CR>')
 vim.keymap.set('n', '<leader>G', '<cmd>Telescope git_commits<CR>')
@@ -43,7 +63,7 @@ local common_on_attach = function(client, bufnr)
   -- ctrl+q to jump to quickfix
   vim.keymap.set("n", "<leader>dl", "<cmd>Telescope diagnostics<CR>", { buffer = 0})
 
-  vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { buffer = 0 })
+  vim.keymap.set("n", "<leader>F", custom_format, { buffer = 0 })
 
   -- common debugging keys
   vim.keymap.set("n", "<F5>", ":lua require'dap'.continue()<CR>", { buffer = 0})
@@ -57,8 +77,6 @@ local common_on_attach = function(client, bufnr)
 end
 
 local go_attach = function() 
-  call_all(common_on_attach)
-
   -- debug go tests
   vim.keymap.set("n", "<leader>dt", ":lua require'dap-go'.debug_test()<CR>")
 end
@@ -77,12 +95,12 @@ lspconfig.gopls.setup {
     },
   },
   capabilities = capabilities,
-  on_attach = go_attach,
+  on_attach = call_all(common_on_attach, go_attach),
 }
 
 lspconfig.golangci_lint_ls.setup {
   capabilities = capabilities,
-  on_attach = go_attach,
+  on_attach = call_all(common_on_attach, go_attach),
   settings = {
     gopls = {
       gofumpt = true,
@@ -103,8 +121,7 @@ null_ls.setup {
   }
 }
 
-require'lspconfig'.tsserver.setup{}
-
+lspconfig.tsserver.setup{}
 
 vim.filetype.add({
   extension = {
@@ -112,7 +129,7 @@ vim.filetype.add({
   }
 })
 
-require'lspconfig'.astro.setup{}
+lspconfig.astro.setup{}
 
 local rt = require("rust-tools")
 
@@ -177,4 +194,20 @@ require("copilot").setup({
 
 require("copilot_cmp").setup({
 
+})
+
+local servers = { 'htmx', 'templ', 'html' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup({
+    on_attach = common_on_attach,
+    capabilities = capabilities,
+    filetypes = { "html", "templ" }
+  })
+end
+
+lspconfig.tailwindcss.setup({
+    on_attach = common_on_attach,
+    capabilities = capabilities,
+    filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+    init_options = { userLanguages = { templ = "html" } },
 })
