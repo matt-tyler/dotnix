@@ -1,5 +1,6 @@
-{ pkgs, ... }:
-{
+{ pkgs, lib, ... }:
+let mypkgs = import ../packages/default.nix { inherit pkgs lib; };
+in {
   home.packages = with pkgs; [
     tmux
     alacritty
@@ -24,7 +25,7 @@
     # go
     go_1_22
     delve
-    gopls
+    # gopls_1_22
     golangci-lint
 
     # Required for mason lsp
@@ -47,5 +48,5 @@
 
     # rust debugging
     # vscode-extensions.vadimcn.vscode-lldb
-  ];
+  ] ++ (with mypkgs; [gopls_1_22]);
 }
