@@ -19,4 +19,17 @@ vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true
 
 require('guess-indent').setup {}
 
-require('auto-session').setup {}
+require('auto-session').setup {
+  session_lens = {
+    -- If load_on_setup is set to false, one needs to eventually call `require("auto-session").setup_session_lens()` if they want to use session-lens.
+    buftypes_to_ignore = {}, -- list of buffer types what should not be deleted from current session
+    load_on_setup = true,
+    theme_conf = { border = true },
+    previewer = false,
+  },
+}
+
+-- require('session-lens').setup {}
+
+-- require("telescope").load_extension("session-lens")
+

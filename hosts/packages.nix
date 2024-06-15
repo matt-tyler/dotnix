@@ -22,22 +22,20 @@ in {
     docker-compose
     yubikey-manager
 
-    # go
     go_1_22
     delve
-    # gopls_1_22
     golangci-lint
 
     # Required for mason lsp
     nodejs_20
 
-    (python311.withPackages (p: with p; [
-      black
-      isort
-      flake8
-      pip
-      poetry-core
-    ]))
+    # (python311.withPackages (p: with p; [
+    #   black
+    #   isort
+    #   flake8
+    #   pip
+    #   poetry-core
+    # ]))
 
     wireguard-go
 
@@ -48,5 +46,7 @@ in {
 
     # rust debugging
     # vscode-extensions.vadimcn.vscode-lldb
-  ] ++ (with mypkgs; [gopls_1_22]);
+  ] ++ (with mypkgs; [
+    gopls_1_22
+  ]);
 }
