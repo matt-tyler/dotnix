@@ -1,6 +1,11 @@
 { pkgs, ... }:
 {
   imports = [ ../home.nix ];
+
+  home.packages = with pkgs; [
+    flyctl
+  ];
+  
   programs = {
     git = {
       enable = true;

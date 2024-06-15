@@ -1,6 +1,20 @@
 { pkgs, ... }:
 {
   imports = [ ../home.nix ];
+  home.packages = with pkgs; [
+    (google-cloud-sdk.withExtraComponents [
+      google-cloud-sdk.components.gke-gcloud-auth-plugin 
+      #google-cloud-sdk.components.pubsub-emulator
+    ])
+    terraform
+    (python311.withPackages (p: with p; [
+      black
+      isort
+      flake8
+      pip
+      poetry-core
+    ]))
+  ];
   programs = {
     git = {
       enable = true;
