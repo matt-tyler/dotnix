@@ -6,6 +6,7 @@
       google-cloud-sdk.components.gke-gcloud-auth-plugin 
       #google-cloud-sdk.components.pubsub-emulator
     ])
+    jdk
     terraform
     (python311.withPackages (p: with p; [
       black
@@ -14,6 +15,11 @@
       pip
       poetry-core
     ]))
+    cockroachdb-bin
+    kubectl
+    temporal
+    protolint
+    dotnet-runtime_7
   ];
   programs = {
     git = {
@@ -21,7 +27,6 @@
       userName = "Matt Tyler";
       userEmail = "matt.tyler@qoria.com";
       extraConfig = {
-        credentials.helper = "osxkeychain";
         core = {
           editor = "nvim";
         };

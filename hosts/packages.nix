@@ -9,8 +9,6 @@ in {
     git
     gh
     gnugrep
-    kubectl
-    jdk
     ripgrep
     fd
     jq
@@ -28,14 +26,6 @@ in {
 
     # Required for mason lsp
     nodejs_20
-
-    # (python311.withPackages (p: with p; [
-    #   black
-    #   isort
-    #   flake8
-    #   pip
-    #   poetry-core
-    # ]))
 
     wireguard-go
 
