@@ -17,7 +17,7 @@
   # add the inputs declared above to the argument attribute set
   outputs = { darwin, home-manager, nixpkgs, ... }: let
     allowUnfree = {
-      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "terraform" ];
+      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "terraform" "cockroachdb-bin" ];
     };
   in {
     darwinConfigurations."mini" = darwin.lib.darwinSystem {
