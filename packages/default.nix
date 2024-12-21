@@ -2,7 +2,7 @@
 {
   gopls_1_23 = pkgs.buildGo123Module rec {
     pname = "gopls";
-    version = "0.17.1";
+    version = "0.17.0";
   
     src = pkgs.fetchFromGitHub {
       owner = "golang";

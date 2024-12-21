@@ -13,14 +13,15 @@ in {
     fd
     jq
     yq-go
-    nerdfonts
+    # nerdfonts
     direnv
     colima
     docker
     docker-compose
     yubikey-manager
 
-    go_1_22
+    go_1_23
+    gopls
     delve
     golangci-lint
 
@@ -37,6 +38,7 @@ in {
     # rust debugging
     # vscode-extensions.vadimcn.vscode-lldb
   ] ++ (with mypkgs; [
-    gopls_1_22
-  ]);
+    # gopls_1_23
+  ])
+    ++ (with pkgs; [] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts));
 }

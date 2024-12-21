@@ -121,7 +121,7 @@ null_ls.setup {
   }
 }
 
-lspconfig.tsserver.setup{}
+lspconfig.ts_ls.setup{}
 
 vim.filetype.add({
   extension = {
