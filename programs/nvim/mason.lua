@@ -6,7 +6,7 @@ require("mason-lspconfig").setup {
 
         "astro",
         "eslint",
-        "tsserver",
+        "ts_ls",
         "tailwindcss",
 
         "html",

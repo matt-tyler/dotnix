@@ -1,8 +1,8 @@
 { pkgs, lib, ... }: 
 {
-  gopls_1_22 = pkgs.buildGo122Module rec {
+  gopls_1_23 = pkgs.buildGo123Module rec {
     pname = "gopls";
-    version = "0.15.1";
+    version = "0.17.1";
   
     src = pkgs.fetchFromGitHub {
       owner = "golang";

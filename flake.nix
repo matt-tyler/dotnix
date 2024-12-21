@@ -23,6 +23,9 @@
     darwinConfigurations."mini" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
+            {
+              system.stateVersion = 5;
+            }
             home-manager.darwinModules.home-manager
 	          ./hosts/mini/config.nix
             allowUnfree
