@@ -21,7 +21,6 @@ This project is a comprehensive configuration setup for a development environmen
 ### Program Configuration Files
 
 - **programs/alacritty.nix**: Configuration for the Alacritty terminal emulator.
-- **programs/git.nix**: Configuration for Git, including user details and settings.
 - **programs/neovim.nix**: Configuration for Neovim, including plugins and settings.
 - **programs/tmux.nix**: Configuration for tmux, including plugins and key bindings.
 - **programs/zsh.nix**: Configuration for zsh, including Oh My Zsh and shell aliases.
