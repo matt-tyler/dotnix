@@ -196,6 +196,9 @@ require("copilot_cmp").setup({
 
 })
 
+require("CopilotChat").setup {
+}
+
 local servers = { 'htmx', 'templ', 'html' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({

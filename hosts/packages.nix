@@ -35,6 +35,12 @@ in {
 
     tailwindcss
 
+    lynx
+    (python312.withPackages (python-pkgs: [
+      # select Python packages here
+      python-pkgs.tiktoken
+    ]))
+
     # rust debugging
     # vscode-extensions.vadimcn.vscode-lldb
   ] ++ (with mypkgs; [

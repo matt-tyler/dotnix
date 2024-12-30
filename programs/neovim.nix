@@ -145,7 +145,7 @@ in
     lspkind-nvim
     copilot-lua
     copilot-cmp
-
+    CopilotChat-nvim
   ];
 
   extraLuaConfig = builtins.readFile ./nvim/init.lua;
