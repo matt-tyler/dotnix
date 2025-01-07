@@ -139,8 +139,8 @@ in
 	    config = builtins.readFile ./nvim/git.lua;
     }
     rust-tools-nvim
-    my-elixir-tools
-    elixir-extras
+    elixir-tools-nvim
+    # elixir-extras
 
     lspkind-nvim
     copilot-lua

@@ -4,6 +4,7 @@ in {
   home.packages = with pkgs; [
     tmux
     alacritty
+    bat
     oh-my-zsh
     zsh
     git
