@@ -36,6 +36,9 @@
     darwinConfigurations."AU-L-0300" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
+            {
+              system.stateVersion = 5;
+            }
             home-manager.darwinModules.home-manager
             ./hosts/AU-L-0300/config.nix
             allowUnfree

@@ -8,18 +8,10 @@
     ])
     jdk
     terraform
-    (python311.withPackages (p: with p; [
-      black
-      isort
-      flake8
-      pip
-      poetry-core
-    ]))
-    cockroachdb-bin
     kubectl
     temporal
     protolint
-    dotnet-runtime_7
+    # dotnet-runtime_7
   ];
   programs = {
     git = {

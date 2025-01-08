@@ -30,6 +30,7 @@ in {
     nodejs_20
 
     wireguard-go
+    wireguard-tools
 
     rustc
     cargo
