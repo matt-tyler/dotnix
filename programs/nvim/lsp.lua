@@ -113,6 +113,8 @@ lspconfig.pyright.setup {
   on_attach = on_attach
 }
 
+lspconfig.zsl.setup {}
+
 null_ls.setup {
   sources = {
     null_ls.builtins.formatting.black,
