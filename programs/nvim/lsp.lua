@@ -113,7 +113,7 @@ lspconfig.pyright.setup {
   on_attach = on_attach
 }
 
-lspconfig.zsl.setup {}
+lspconfig.zls.setup {}
 
 null_ls.setup {
   sources = {

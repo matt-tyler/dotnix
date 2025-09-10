@@ -1,8 +1,7 @@
 { pkgs, ... }:
 {
-  services.nix-daemon.enable = true;
   programs.zsh.enable = true;
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
   users.users = {
     "matt.tyler" = {
       name = "matt.tyler";
