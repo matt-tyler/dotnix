@@ -29,6 +29,13 @@ in {
     # Required for mason lsp
     nodejs-slim_24
 
+    # Nix language server
+    nixd
+    nixfmt-rfc-style
+
+    # Markdown language server and tools
+    # marksman
+
     wireguard-go
     wireguard-tools
 
@@ -41,6 +48,9 @@ in {
     (python312.withPackages (python-pkgs: [
       # select Python packages here
       python-pkgs.tiktoken
+      python-pkgs.flake8
+      python-pkgs.black
+      python-pkgs.isort
     ]))
 
     opencode

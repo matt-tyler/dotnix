@@ -13,4 +13,19 @@
     useUserPackages = true;
     users."matt.tyler" = import ./home.nix;
   };
+
+  homebrew = {
+    enable = true;
+    brews = [
+      "marksman"
+    ];
+    casks = [
+      "ghostty"
+      # "visual-studio-code"
+      # "firefox"
+      # "postman"
+      # "slack"
+      # "google-drive"
+    ];
+  };
 }

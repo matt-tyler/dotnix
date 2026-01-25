@@ -1,40 +1,25 @@
+-- LSP Configuration
+-- This file contains keymaps, server configurations, and formatters
+-- organized into logical sections for maintainability
 
--- local util = require('lspconfig/util')
-local null_ls = require('null-ls')
+-- ============================================================================
+-- SECTION: Setup and Dependencies
+-- ============================================================================
 
+-- Setup comment plugin
 require('Comment').setup {}
 
+-- Setup completion capabilities
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local call_all = function(...)
-  local args = {...}
-  return function(client, bufnr)
-    for i, fn in ipairs(args) do
-       fn(client, bufnr)
-    end
-  end 
-end
+-- null-ls for additional formatting/linting
+local null_ls = require('null-ls')
 
+-- ============================================================================
+-- SECTION: Keymaps and Telescope Integration
+-- ============================================================================
 
-local custom_format = function()
-    if vim.bo.filetype == "templ" then
-        local bufnr = vim.api.nvim_get_current_buf()
-        local filename = vim.api.nvim_buf_get_name(bufnr)
-        local cmd = "templ fmt " .. vim.fn.shellescape(filename)
-
-        vim.fn.jobstart(cmd, {
-            on_exit = function()
-                -- Reload the buffer only if it's still the current buffer
-                if vim.api.nvim_get_current_buf() == bufnr then
-                    vim.cmd('e!')
-                end
-            end,
-        })
-    else
-        vim.lsp.buf.format()
-    end
-end
-
+-- Telescope keymaps (fuzzy finder)
 vim.keymap.set('n', '<leader>f', '<cmd>Telescope find_files<CR>')
 vim.keymap.set('n', '<leader>g', '<cmd>Telescope git_status<CR>')
 vim.keymap.set('n', '<leader>G', '<cmd>Telescope git_commits<CR>')
@@ -45,26 +30,56 @@ vim.keymap.set('n', '<leader>/', '<cmd>Telescope current_buffer_fuzzy_find<CR>')
 vim.keymap.set('n', '<leader><leader>', '<cmd>Telescope buffers<CR>')
 vim.keymap.set('n', '<leader>w', '<cmd>Telescope treesitter<CR>')
 
+-- ============================================================================
+-- SECTION: Custom Formatting Function
+-- ============================================================================
+
+-- Custom formatting function (handles templ special case)
+local custom_format = function()
+  if vim.bo.filetype == "templ" then
+    local bufnr = vim.api.nvim_get_current_buf()
+    local filename = vim.api.nvim_buf_get_name(bufnr)
+    local cmd = "templ fmt " .. vim.fn.shellescape(filename)
+
+    vim.fn.jobstart(cmd, {
+      on_exit = function()
+        -- Reload the buffer only if it's still the current buffer
+        if vim.api.nvim_get_current_buf() == bufnr then
+          vim.cmd('e!')
+        end
+      end,
+    })
+  else
+    vim.lsp.buf.format()
+  end
+end
+
+-- ============================================================================
+-- SECTION: LSP on_attach Functions
+-- ============================================================================
+
+-- Common LSP on_attach function (sets buffer-local keymaps)
 local common_on_attach = function(client, bufnr)
+  -- LSP navigation
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
   vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { buffer = 0 })
   vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { buffer = 0 })
   vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { buffer = 0 })
   vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { buffer = 0 })
 
-  -- :wa = write all may be needed
+  -- LSP actions
   vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { buffer = 0 })
   vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", { buffer = 0 })
 
-  vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_next, { buffer = 0})
+  -- Diagnostic navigation (FIXED: dk goes prev, dj goes next)
+  vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_prev, { buffer = 0})
   vim.keymap.set("n", "<leader>dj", vim.diagnostic.goto_next, { buffer = 0})
-
-  -- ctrl+q to jump to quickfix
   vim.keymap.set("n", "<leader>dl", "<cmd>Telescope diagnostics<CR>", { buffer = 0})
 
+  -- Formatting
   vim.keymap.set("n", "<leader>F", custom_format, { buffer = 0 })
 
-  -- common debugging keys
+  -- DAP debugging keymaps
   vim.keymap.set("n", "<F5>", ":lua require'dap'.continue()<CR>", { buffer = 0})
   vim.keymap.set("n", "<F8>", ":lua require'dap'.step_over()<CR>", { buffer = 0 })
   vim.keymap.set("n", "<F9>", ":lua require'dap'.step_into()<CR>", { buffer = 0 })
@@ -75,15 +90,38 @@ local common_on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", { buffer = 0 })
 end
 
+-- Go-specific on_attach
 local go_attach = function() 
-  -- debug go tests
   vim.keymap.set("n", "<leader>dt", ":lua require'dap-go'.debug_test()<CR>")
 end
 
+-- Elixir-specific on_attach
+local elixir_attach = function(client, bufnr)
+  vim.keymap.set('n', '<leader>i', ":lua require'elixir-extras'.elixir_view_docs({})<CR>", { buffer = 0 })
+end
+
+-- ============================================================================
+-- SECTION: Helper Functions
+-- ============================================================================
+
+-- Helper to call multiple on_attach functions
+local call_all = function(...)
+  local args = {...}
+  return function(client, bufnr)
+    for i, fn in ipairs(args) do
+       fn(client, bufnr)
+    end
+  end 
+end
+
+-- ============================================================================
+-- SECTION: LSP Server Configurations
+-- ============================================================================
+
+-- Go language servers
 vim.lsp.config('gopls', {
   cmd = {"gopls", "serve"},
   filetypes = {"go", "gomod"},
-  -- root_dir = util.root_pattern("go.work", "go.mod", ".git"),
   settings = {
     gopls = {
       gofumpt = true,
@@ -107,74 +145,27 @@ vim.lsp.config('golangci_lint_ls', {
   },
 })
 
+-- Python
 vim.lsp.config('pyright', {
   capabilities = capabilities,
   on_attach = common_on_attach
 })
 
+-- Zig
 vim.lsp.config('zls', {})
 
-null_ls.setup {
-  sources = {
-    null_ls.builtins.formatting.black,
-    null_ls.builtins.formatting.isort,
-    null_ls.builtins.diagnostics.flake8
-  }
-}
-
+-- TypeScript/JavaScript
 vim.lsp.config('ts_ls', {})
 
+-- Astro
 vim.filetype.add({
   extension = {
     astro = "astro"
   }
 })
-
 vim.lsp.config('astro', {})
 
--- local rt = require("rust-tools")
-
--- local mason_registry = require('mason-registry')
--- local codelldb = mason_registry.get_package("codelldb")
--- codelldb:get_install_path()
-
--- super old
--- local extension_path = os.getenv("HOME") .. "/.vscode/extensions/vadimcn.vscode-lldb-1.9.1"
--- local codelldb_path = extension_path .. "/adapter/codelldb"
--- local liblldb_path = extension_path .. "/lldb/lib/liblldb.so"
-
--- local extension_path = codelldb:get_install_path() .. "/extension/"
--- local codelldb_path = extension_path .. "adapter/codelldb"
--- local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
-
--- local rt_attach = function(client, bufnr)
---   vim.keymap.set("n", "<leader>h", rt.hover_actions.hover_actions, { buffer = 0 })
---   vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = 0 })
--- end
-
--- rt.setup({
---   tools = {
---     inlay_hints = {
---       auto = true,
---       only_current_line = true,
---       show_parameter_hints = true
---     },
---   },
---   server = {
---     on_attach = call_all(common_on_attach, rt_attach)
---   },
---   dap = {
---     adapter = require("rust-tools.dap").get_codelldb_adapter(
---       codelldb_path,
---       liblldb_path
---     ),
---   },
--- });
-
-local elixir_attach = function(client, bufnr)
-  vim.keymap.set('n', '<leader>i', ":lua require'elixir-extras'.elixir_view_docs({})<CR>", { buffer = 0 })
-end
-
+-- Elixir
 require("elixir").setup({
   nextls = {
     enable = false,
@@ -189,20 +180,9 @@ require("elixir").setup({
   }
 })
 
-require("copilot").setup({
-  suggestion = { enabled = false },
-  panel = { enabled = false },
-})
-
-require("copilot_cmp").setup({
-
-})
-
-require("CopilotChat").setup {
-}
-
-local servers = { 'htmx', 'templ', 'html' }
-for _, lsp in ipairs(servers) do
+-- HTML/HTMX/Templ servers
+local html_servers = { 'htmx', 'templ', 'html' }
+for _, lsp in ipairs(html_servers) do
   vim.lsp.config(lsp, {
     on_attach = common_on_attach,
     capabilities = capabilities,
@@ -210,14 +190,38 @@ for _, lsp in ipairs(servers) do
   })
 end
 
+-- TailwindCSS
 vim.lsp.config('tailwindcss', {
-    on_attach = common_on_attach,
-    capabilities = capabilities,
-    filetypes = { "templ", "astro", "javascript", "typescript", "react" },
-    init_options = { userLanguages = { templ = "html" } },
+  on_attach = common_on_attach,
+  capabilities = capabilities,
+  filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+  init_options = { userLanguages = { templ = "html" } },
 })
 
--- Enable all configured language servers
+-- Nix
+vim.lsp.config('nixd', {
+  capabilities = capabilities,
+  on_attach = common_on_attach,
+  settings = {
+    nixd = {
+      formatting = {
+        command = { "nixfmt" }
+      }
+    }
+  }
+})
+
+-- Markdown
+vim.lsp.config('marksman', {
+  capabilities = capabilities,
+  on_attach = common_on_attach,
+  filetypes = { "markdown", "md" }
+})
+
+-- ============================================================================
+-- SECTION: Enable All Language Servers
+-- ============================================================================
+
 vim.lsp.enable('gopls')
 vim.lsp.enable('golangci_lint_ls')
 vim.lsp.enable('pyright')
@@ -228,3 +232,68 @@ vim.lsp.enable('htmx')
 vim.lsp.enable('templ')
 vim.lsp.enable('html')
 vim.lsp.enable('tailwindcss')
+vim.lsp.enable('nixd')
+vim.lsp.enable('marksman')
+
+-- ============================================================================
+-- SECTION: Formatters and Linters (null-ls)
+-- ============================================================================
+
+null_ls.setup {
+  sources = {
+    -- Python formatters and linters
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.isort,
+    null_ls.builtins.diagnostics.flake8
+  }
+}
+
+-- ============================================================================
+-- SECTION: Copilot Configuration
+-- ============================================================================
+
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enabled = false },
+})
+
+require("copilot_cmp").setup({})
+
+require("CopilotChat").setup {}
+
+-- ============================================================================
+-- SECTION: Commented Rust Configuration
+-- ============================================================================
+-- Uncomment when rust-tools and codelldb are properly configured
+--[[
+local rt = require("rust-tools")
+local mason_registry = require('mason-registry')
+local codelldb = mason_registry.get_package("codelldb")
+local extension_path = codelldb:get_install_path() .. "/extension/"
+local codelldb_path = extension_path .. "adapter/codelldb"
+local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+
+local rt_attach = function(client, bufnr)
+  vim.keymap.set("n", "<leader>h", rt.hover_actions.hover_actions, { buffer = 0 })
+  vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = 0 })
+end
+
+rt.setup({
+  tools = {
+    inlay_hints = {
+      auto = true,
+      only_current_line = true,
+      show_parameter_hints = true
+    },
+  },
+  server = {
+    on_attach = call_all(common_on_attach, rt_attach)
+  },
+  dap = {
+    adapter = require("rust-tools.dap").get_codelldb_adapter(
+      codelldb_path,
+      liblldb_path
+    ),
+  },
+});
+]]--

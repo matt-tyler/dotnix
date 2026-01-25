@@ -1,1 +1,13 @@
+# Nix build outputs
 result
+result-*
+
+# Direnv
+.direnv/
+
+# Vim swap files
+*.swp
+*.swo
+
+# macOS
+.DS_Store

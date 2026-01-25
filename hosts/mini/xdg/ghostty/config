@@ -1,0 +1,2 @@
+theme = nightfox
+command = /bin/zsh -l -c "tmux new-session -A -s main"

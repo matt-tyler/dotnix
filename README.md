@@ -2,7 +2,32 @@
 
 ## Overview
 
-This project is a comprehensive configuration setup for a development environment using Nix and Neovim. It includes configurations for various tools and applications such as tmux, zsh, Alacritty, and Neovim, along with specific settings for different hosts.
+This project is a comprehensive configuration setup for a development environment using Nix and Neovim. It includes configurations for various tools and applications such as tmux, zsh, Alacritty, Ghostty, and Neovim, along with specific settings for different hosts.
+
+## System Architecture
+
+This repository manages two macOS (darwin) hosts with nix-darwin and home-manager:
+
+### mini (Personal Machine)
+- **User:** matt.tyler
+- **Email:** me@matthewtyler.io
+- **Platform:** aarch64-darwin
+- **Terminal:** Ghostty (configured to auto-start tmux)
+- **Special Features:**
+  - Ghostty terminal with nightfox theme
+  - flyctl and tailscale packages
+
+### AU-L-0300 (Work Machine)
+- **User:** matthewtyler
+- **Email:** matt.tyler@qoria.com
+- **Platform:** aarch64-darwin
+- **Special Features:**
+  - Google Cloud SDK with gke-gcloud-auth-plugin
+  - Terraform, kubectl, temporal
+  - OpenCode configuration with Gemini integration
+  - JDK, protolint for enterprise development
+
+Both hosts share core configurations (Neovim, tmux, zsh) with host-specific customizations in their respective directories.
 
 ## File Structure
 
@@ -21,9 +46,22 @@ This project is a comprehensive configuration setup for a development environmen
 ### Program Configuration Files
 
 - **programs/alacritty.nix**: Configuration for the Alacritty terminal emulator.
+- **programs/git.nix**: Shared git configuration (imported by host-specific configs).
 - **programs/neovim.nix**: Configuration for Neovim, including plugins and settings.
 - **programs/tmux.nix**: Configuration for tmux, including plugins and key bindings.
 - **programs/zsh.nix**: Configuration for zsh, including Oh My Zsh and shell aliases.
+
+### Terminal Emulator Configuration
+
+#### Ghostty (mini host)
+Configuration: `hosts/mini/xdg/ghostty/config`
+
+The Ghostty terminal is configured with:
+- **Theme:** nightfox
+- **Auto-start:** Automatically launches tmux session named "main" on startup
+- Command: `/bin/zsh -l -c "tmux new-session -A -s main"`
+
+This provides a seamless terminal experience where opening Ghostty immediately puts you in a persistent tmux session.
 
 ### Neovim Lua Configuration Files
 

@@ -6,32 +6,12 @@
     tailscale
   ];
 
+  xdg.configFile."ghostty/config".source = ./xdg/ghostty/config;
+
   programs = {
-    git = {
-      enable = true;
+    git = import ../../programs/git.nix {
       userName = "Matt Tyler";
       userEmail = "me@matthewtyler.io";
-      extraConfig = {
-        credentials.helper = "osxkeychain";
-        core = {
-          editor = "nvim";
-        };
-        color = {
-          ui = true;
-        };
-        push = {
-          default = "simple";
-        };
-        pull = {
-          ff = "only";
-        };
-        init = {
-          defaultBranch = "main";
-        };
-      };
-      ignores = [
-        ".DS_Store"
-      ];
     };
   };
 } 

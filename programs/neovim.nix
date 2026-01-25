@@ -52,6 +52,11 @@ in
     none-ls-nvim
     opencode-nvim
     {
+      plugin = snacks-nvim;
+      type = "lua";
+      config = builtins.readFile ./nvim/snacks.lua;
+    }
+    {
       plugin = nvim-web-devicons;
       type = "lua";
       config = builtins.readFile ./nvim/web-devicons.lua;
@@ -143,5 +148,5 @@ in
     CopilotChat-nvim
   ];
 
-  extraLuaConfig = builtins.readFile ./nvim/init.lua;
+  initLua = builtins.readFile ./nvim/init.lua;
 }

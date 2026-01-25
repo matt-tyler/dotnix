@@ -17,7 +17,6 @@
 
   # xdg.configFile."ghostty/config".source = ./xdg/ghosty/config;
 
-
   programs = {
     opencode = {
       settings = {
@@ -33,32 +32,9 @@
         };
       };
     };
-    git = {
-      enable = true;
-      settings = {
-        user = {
-          name = "Matt Tyler";
-          email = "matt.tyler@qoria.com";
-        };
-        core = {
-          editor = "nvim";
-        };
-        color = {
-          ui = true;
-        };
-        push = {
-          default = "simple";
-        };
-        pull = {
-          ff = "only";
-        };
-        init = {
-          defaultBranch = "main";
-        };
-      };
-      ignores = [
-        ".DS_Store"
-      ];
+    git = import ../../programs/git.nix {
+      userName = "Matt Tyler";
+      userEmail = "matt.tyler@qoria.com";
     };
   };
 } 
