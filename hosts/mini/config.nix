@@ -9,8 +9,8 @@
     };
   };
   home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      users."matt.tyler" = import ./home.nix;
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users."matt.tyler" = import ./home.nix;
   };
 }

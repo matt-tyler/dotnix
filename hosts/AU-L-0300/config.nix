@@ -1,8 +1,7 @@
 { pkgs, ... }:
 {
-  services.nix-daemon.enable = true;
   programs.zsh.enable = true;
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
   users.users = {
     "matthewtyler" = {
       name = "matthewtyler";
@@ -10,8 +9,21 @@
     };
   };
   home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      users."matthewtyler" = import ./home.nix;
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users."matthewtyler" = import ./home.nix;
   };
+
+  # homebrew = {
+  #   enable = true;
+  #   casks = [
+  #     "ghostty"
+  #     "visual-studio-code"
+  #     "firefox"
+  #     "postman"
+  #     "slack"
+  #     "google-drive"
+  #   ];
+  # };
+
 }

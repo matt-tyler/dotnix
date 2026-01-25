@@ -1,6 +1,5 @@
 
-local lspconfig = require('lspconfig')
-local util = require('lspconfig/util')
+-- local util = require('lspconfig/util')
 local null_ls = require('null-ls')
 
 require('Comment').setup {}
@@ -81,10 +80,10 @@ local go_attach = function()
   vim.keymap.set("n", "<leader>dt", ":lua require'dap-go'.debug_test()<CR>")
 end
 
-lspconfig.gopls.setup {
+vim.lsp.config('gopls', {
   cmd = {"gopls", "serve"},
   filetypes = {"go", "gomod"},
-  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+  -- root_dir = util.root_pattern("go.work", "go.mod", ".git"),
   settings = {
     gopls = {
       gofumpt = true,
@@ -96,9 +95,9 @@ lspconfig.gopls.setup {
   },
   capabilities = capabilities,
   on_attach = call_all(common_on_attach, go_attach),
-}
+})
 
-lspconfig.golangci_lint_ls.setup {
+vim.lsp.config('golangci_lint_ls', {
   capabilities = capabilities,
   on_attach = call_all(common_on_attach, go_attach),
   settings = {
@@ -106,14 +105,14 @@ lspconfig.golangci_lint_ls.setup {
       gofumpt = true,
     },
   },
-}
+})
 
-lspconfig.pyright.setup {
-  capabilities = capabilites,
-  on_attach = on_attach
-}
+vim.lsp.config('pyright', {
+  capabilities = capabilities,
+  on_attach = common_on_attach
+})
 
-lspconfig.zls.setup {}
+vim.lsp.config('zls', {})
 
 null_ls.setup {
   sources = {
@@ -123,7 +122,7 @@ null_ls.setup {
   }
 }
 
-lspconfig.ts_ls.setup{}
+vim.lsp.config('ts_ls', {})
 
 vim.filetype.add({
   extension = {
@@ -131,45 +130,46 @@ vim.filetype.add({
   }
 })
 
-lspconfig.astro.setup{}
+vim.lsp.config('astro', {})
 
-local rt = require("rust-tools")
+-- local rt = require("rust-tools")
 
-local mason_registry = require('mason-registry')
-local codelldb = mason_registry.get_package("codelldb")
-codelldb:get_install_path()
+-- local mason_registry = require('mason-registry')
+-- local codelldb = mason_registry.get_package("codelldb")
+-- codelldb:get_install_path()
 
+-- super old
 -- local extension_path = os.getenv("HOME") .. "/.vscode/extensions/vadimcn.vscode-lldb-1.9.1"
 -- local codelldb_path = extension_path .. "/adapter/codelldb"
 -- local liblldb_path = extension_path .. "/lldb/lib/liblldb.so"
 
-local extension_path = codelldb:get_install_path() .. "/extension/"
-local codelldb_path = extension_path .. "adapter/codelldb"
-local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+-- local extension_path = codelldb:get_install_path() .. "/extension/"
+-- local codelldb_path = extension_path .. "adapter/codelldb"
+-- local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
-local rt_attach = function(client, bufnr)
-  vim.keymap.set("n", "<leader>h", rt.hover_actions.hover_actions, { buffer = 0 })
-  vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = 0 })
-end
+-- local rt_attach = function(client, bufnr)
+--   vim.keymap.set("n", "<leader>h", rt.hover_actions.hover_actions, { buffer = 0 })
+--   vim.keymap.set("n", "<leader>a", rt.code_action_group.code_action_group, { buffer = 0 })
+-- end
 
-rt.setup({
-  tools = {
-    inlay_hints = {
-      auto = true,
-      only_current_line = true,
-      show_parameter_hints = true
-    },
-  },
-  server = {
-    on_attach = call_all(common_on_attach, rt_attach)
-  },
-  dap = {
-    adapter = require("rust-tools.dap").get_codelldb_adapter(
-      codelldb_path,
-      liblldb_path
-    ),
-  },
-});
+-- rt.setup({
+--   tools = {
+--     inlay_hints = {
+--       auto = true,
+--       only_current_line = true,
+--       show_parameter_hints = true
+--     },
+--   },
+--   server = {
+--     on_attach = call_all(common_on_attach, rt_attach)
+--   },
+--   dap = {
+--     adapter = require("rust-tools.dap").get_codelldb_adapter(
+--       codelldb_path,
+--       liblldb_path
+--     ),
+--   },
+-- });
 
 local elixir_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>i', ":lua require'elixir-extras'.elixir_view_docs({})<CR>", { buffer = 0 })
@@ -203,16 +203,28 @@ require("CopilotChat").setup {
 
 local servers = { 'htmx', 'templ', 'html' }
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
+  vim.lsp.config(lsp, {
     on_attach = common_on_attach,
     capabilities = capabilities,
     filetypes = { "html", "templ" }
   })
 end
 
-lspconfig.tailwindcss.setup({
+vim.lsp.config('tailwindcss', {
     on_attach = common_on_attach,
     capabilities = capabilities,
     filetypes = { "templ", "astro", "javascript", "typescript", "react" },
     init_options = { userLanguages = { templ = "html" } },
 })
+
+-- Enable all configured language servers
+vim.lsp.enable('gopls')
+vim.lsp.enable('golangci_lint_ls')
+vim.lsp.enable('pyright')
+vim.lsp.enable('zls')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('astro')
+vim.lsp.enable('htmx')
+vim.lsp.enable('templ')
+vim.lsp.enable('html')
+vim.lsp.enable('tailwindcss')

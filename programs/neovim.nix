@@ -36,7 +36,7 @@ in
   plugins = with pkgs.vimPlugins; [
     plenary-nvim
     telescope-fzf-native-nvim
-   
+
     comment-nvim
     vim-tmux-navigator
     luasnip
@@ -49,7 +49,8 @@ in
     trouble-nvim
     mason-lspconfig-nvim
     guess-ident
-    null-ls-nvim
+    none-ls-nvim
+    opencode-nvim
     {
       plugin = nvim-web-devicons;
       type = "lua";
@@ -69,11 +70,6 @@ in
       plugin = trouble-nvim;
       type = "lua";
       config = builtins.readFile ./nvim/trouble.lua;
-    }
-    {
-      plugin = project-nvim;
-      type = "lua";
-      config = builtins.readFile ./nvim/project_nvim.lua;
     }
     {
       plugin = alpha-nvim;
@@ -134,11 +130,10 @@ in
     }
     git-worktree-nvim
     {
-	    plugin = gitsigns-nvim;
-	    type = "lua";
-	    config = builtins.readFile ./nvim/git.lua;
+      plugin = gitsigns-nvim;
+      type = "lua";
+      config = builtins.readFile ./nvim/git.lua;
     }
-    rust-tools-nvim
     elixir-tools-nvim
     # elixir-extras
 

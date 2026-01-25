@@ -21,13 +21,13 @@ in {
     docker-compose
     yubikey-manager
 
-    go_1_23
+    go_1_25
     gopls
     delve
     golangci-lint
 
     # Required for mason lsp
-    nodejs_20
+    nodejs-slim_24
 
     wireguard-go
     wireguard-tools
@@ -43,10 +43,12 @@ in {
       python-pkgs.tiktoken
     ]))
 
+    opencode
+
     # rust debugging
     # vscode-extensions.vadimcn.vscode-lldb
   ] ++ (with mypkgs; [
     # gopls_1_23
   ])
-    ++ (with pkgs; [] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts));
+  ++ (with pkgs; [ ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts));
 }

@@ -1,24 +1,24 @@
-{ pkgs, lib, ... }: 
+{ pkgs, lib, ... }:
 {
   gopls_1_23 = pkgs.buildGo123Module rec {
     pname = "gopls";
     version = "0.17.0";
-  
+
     src = pkgs.fetchFromGitHub {
       owner = "golang";
       repo = "tools";
       rev = "gopls/v${version}";
       hash = "sha256-GJ2zc5OgZXwEq12f0PyvgOOUd7cctUbFvdp095VQb9E=";
     };
-  
+
     modRoot = "gopls";
     vendorHash = "sha256-Xxik0t1BHQPqzrE3Oh3VhODn+IqIVa+TCNqQSnmbBM0=";
-  
+
     doCheck = false;
-  
+
     # Only build gopls, and not the integration tests or documentation generator.
     subPackages = [ "." ];
-  
+
     meta = with lib; {
       description = "Official language server for the Go language";
       homepage = "https://github.com/golang/tools/tree/master/gopls";

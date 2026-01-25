@@ -5,7 +5,7 @@
     flyctl
     tailscale
   ];
-  
+
   programs = {
     git = {
       enable = true;
