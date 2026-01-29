@@ -1,2 +1,4 @@
 theme = nightfox
-command = /bin/zsh -l -c "tmux new-session -A -s main"
+
+# Tmux auto-attach is configured in programs/zsh.nix via initExtra
+# This ensures proper shell integration and avoids command wrapping issues

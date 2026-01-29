@@ -58,10 +58,12 @@ Configuration: `hosts/mini/xdg/ghostty/config`
 
 The Ghostty terminal is configured with:
 - **Theme:** nightfox
-- **Auto-start:** Automatically launches tmux session named "main" on startup
-- Command: `/bin/zsh -l -c "tmux new-session -A -s main"`
+- **Tmux Auto-attach:** Configured via zsh (`programs/zsh.nix`)
+  - Automatically attaches to tmux session named "main" on shell startup
+  - Only attaches if not already in a tmux session
+  - Creates session if it doesn't exist (`tmux new-session -A -s main`)
 
-This provides a seamless terminal experience where opening Ghostty immediately puts you in a persistent tmux session.
+This provides a seamless terminal experience where opening Ghostty automatically puts you in a persistent tmux session without interfering with Ghostty's shell integration.
 
 ### Neovim Lua Configuration Files
 

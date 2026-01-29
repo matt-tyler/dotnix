@@ -31,7 +31,7 @@ in {
 
     # Nix language server
     nixd
-    nixfmt-rfc-style
+    nixfmt
 
     # Markdown language server and tools
     # marksman
