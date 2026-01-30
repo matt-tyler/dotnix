@@ -14,16 +14,16 @@
     users."matthewtyler" = import ./home.nix;
   };
 
-  # homebrew = {
-  #   enable = true;
-  #   casks = [
-  #     "ghostty"
-  #     "visual-studio-code"
-  #     "firefox"
-  #     "postman"
-  #     "slack"
-  #     "google-drive"
-  #   ];
-  # };
+  homebrew = {
+    enable = true;
+    casks = [
+      "ghostty"
+      # "visual-studio-code"
+      # "firefox"
+      # "postman"
+      # "slack"
+      # "google-drive"
+    ];
+  };
 
 }

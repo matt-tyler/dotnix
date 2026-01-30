@@ -82,6 +82,7 @@
                 "homebrew/homebrew-cask" = homebrew-cask;
               };
 
+              autoMigrate = true;
               mutableTaps = false;
             };
           }
@@ -90,6 +91,7 @@
           })
           {
             system.stateVersion = 5;
+            system.primaryUser = "matthewtyler";
           }
           home-manager.darwinModules.home-manager
           ./hosts/AU-L-0300/config.nix
