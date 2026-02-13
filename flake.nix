@@ -99,5 +99,37 @@
         ];
       };
 
+      darwinConfigurations."AU-L-D2FX03LHJQ" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "matthewtyler";
+
+              taps = {
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+              };
+
+              autoMigrate = true;
+              mutableTaps = false;
+            };
+          }
+          ({config, ...}: {
+            homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
+          })
+          {
+            system.stateVersion = 5;
+            system.primaryUser = "matt.tyler";
+          }
+          home-manager.darwinModules.home-manager
+          ./hosts/AU-L-D2FX03LHJQ/config.nix
+          allowUnfree
+        ];
+      };
+
     };
 }
